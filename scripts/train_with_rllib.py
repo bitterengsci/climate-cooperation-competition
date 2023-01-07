@@ -381,7 +381,7 @@ def fetch_episode_states(trainer_obj=None, episode_states=None):
 
     return outputs
 
-
+# trainer
 def trainer(
     negotiation_on=0,
     num_envs=100,
@@ -418,6 +418,7 @@ def trainer(
     # Create trainer
     # --------------
     trainer, save_dir = create_trainer(run_config)
+    print("Trainer Created.")
 
     # Copy the source files into the results directory
     # ------------------------------------------------
@@ -433,11 +434,13 @@ def trainer(
             os.path.join(PUBLIC_REPO_DIR, "scripts", file),
             os.path.join(save_dir, file),
         )
+    print("Source files into the results directory Copied.")
 
     # Add an identifier file
     with open(os.path.join(save_dir, ".rllib"), "x", encoding="utf-8") as fp:
         pass
     fp.close()
+    print("Identifier file Added.")
 
     # Perform training
     # ----------------
@@ -449,6 +452,7 @@ def trainer(
     episode_length = env_obj.episode_length
     num_iters = (num_episodes * episode_length) // train_batch_size
 
+    print("Start training...")
     for iteration in range(num_iters):
         print(f"********** Iter : {iteration + 1:5d} / {num_iters:5d} **********")
         result = trainer.train()
@@ -471,6 +475,7 @@ def trainer(
             save_dir,
         ]
     )
+    print(f'Submission file Created at {save_dir}')
 
     # Close Ray gracefully after completion
     outputs_ts = fetch_episode_states(trainer, desired_outputs)
