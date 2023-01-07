@@ -300,7 +300,7 @@ def create_trainer(exp_run_config=None, source_dir=None, results_dir=None, seed=
         results_dir,
     )
 
-    ray.init(ignore_reinit_error=True)
+    ray.init(ignore_reinit_error=True, logging_level=logging.WARNING)
 
     # Create the A2C trainer.
     exp_run_config["env"]["source_dir"] = source_dir
